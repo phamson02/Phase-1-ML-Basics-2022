@@ -74,11 +74,11 @@ def generate_vocabolary(data_path):
     words_idfs.sort(key=lambda word_idf: word_idf[1], reverse=True)
 
     print(f'Vocabulary size: {len(words_idfs)}')
-    with open(f'{PATH}/words_idfs.txt', 'w') as f:
+    with open(f'{PATH}/words-idfs.txt', 'w') as f:
         f.write('\n'.join([f'{word}<fff>{idf}' for word, idf in words_idfs]))
 
 def get_tf_idf(data_path):
-    with open(f'{PATH}/words_idfs.txt') as f:
+    with open(f'{PATH}/words-idfs.txt') as f:
         words_idfs = [(word, float(idf)) for line in f.read().splitlines() 
                         for word, idf in [line.split('<fff>')]]
         word_IDs = {word: idx for idx, (word, idf) in enumerate(words_idfs)}
@@ -109,11 +109,12 @@ def get_tf_idf(data_path):
             sparse_rep = ' '.join(words_tfidfs_normalized)
             data_tf_idf.append(f'{label}<fff>{doc_id}<fff>{sparse_rep}')
     
-    with open(f'{PATH}/words_tf_idf.txt', 'w') as f:
+    dataset_name = '-'.join(data_path.split('/')[-1].split('.')[0].split('-')[:-1])
+    with open(f'{PATH}/{dataset_name}-tf-idf.txt', 'w') as f:
         f.write('\n'.join(data_tf_idf))
 
 
 if __name__ == '__main__':
-    gather_20newsgroups_data()
+    # gather_20newsgroups_data()
     generate_vocabolary(f'{PATH}/20news-full-processed.txt')
     get_tf_idf(f'{PATH}/20news-full-processed.txt')
