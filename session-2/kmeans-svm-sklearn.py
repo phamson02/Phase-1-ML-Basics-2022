@@ -78,6 +78,7 @@ def classifying_with_kernel_SVM():
 
 if __name__ == '__main__':
     linear_SMSVC = classifying_with_linear_SVM()
-    kernel_SMSVC = classifying_with_kernel_SVM()
     print(f'accuracy_with_linear_SMSVC: {compute_accuracy(linear_SMSVC)}')
+    
+    kernel_SMSVC = classifying_with_kernel_SVM()
     print(f'accuracy_with_kernel_SMSVC: {compute_accuracy(kernel_SMSVC)}')
