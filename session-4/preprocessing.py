@@ -1,14 +1,7 @@
 import os
 import re
+from global_vars import *
 from collections import defaultdict
-from tkinter.tix import MAX
-
-PARENT_PATH = '../data'
-PATH = '../data/20news-bydate'
-MAX_SENTENCE_LENGTH = 500
-unknown_id = 1
-padding_id = 0
-
 
 def gen_data_and_vocab():
     def collect_data_from(parent_path, newsgroup_list, word_count=None):
@@ -34,7 +27,7 @@ def gen_data_and_vocab():
         return data
 
     word_count = defaultdict(int)
-    dirs = [f'{PATH}/{d}' for d in os.listdir(PATH) if os.path.isdir(f'{PATH}/{d}')]
+    dirs = [f'{DATA_PATH}/{d}' for d in os.listdir(DATA_PATH) if os.path.isdir(f'{DATA_PATH}/{d}')]
 
     train_dir, test_dir = (dirs[0], dirs[1]) if 'train' in dirs[0] else (dirs[1], dirs[0])
     newsgroup_list = [newsgroup for newsgroup in os.listdir(train_dir)]
@@ -54,13 +47,13 @@ def gen_data_and_vocab():
     vocab = [word for word, count in word_count.items() if count > 10]
     vocab.sort()
 
-    with open(f'{PARENT_PATH}/w2v/vocab-raw.txt', 'w') as f:
+    with open(f'{PATH}/vocab-raw.txt', 'w') as f:
         f.write('\n'.join(vocab))
 
-    with open(f'{PARENT_PATH}/w2v/20news-train-raw.txt', 'w') as f:
+    with open(f'{PATH}/20news-train-raw.txt', 'w') as f:
         f.write('\n'.join(train_data))
 
-    with open(f'{PARENT_PATH}/w2v/20news-test-raw.txt', 'w') as f:
+    with open(f'{PATH}/20news-test-raw.txt', 'w') as f:
         f.write('\n'.join(test_data))
 
 def encode_data(data_path, vocab_path):
@@ -99,11 +92,11 @@ if __name__ == '__main__':
     gen_data_and_vocab()
 
     encode_data(
-        data_path=f'{PARENT_PATH}/w2v/20news-train-raw.txt',
-        vocab_path=f'{PARENT_PATH}/w2v/vocab-raw.txt'
+        data_path=f'{PATH}/20news-train-raw.txt',
+        vocab_path=f'{PATH}/vocab-raw.txt'
     )
 
     encode_data(
-        data_path=f'{PARENT_PATH}/w2v/20news-test-raw.txt',
-        vocab_path=f'{PARENT_PATH}/w2v/vocab-raw.txt'
+        data_path=f'{PATH}/20news-test-raw.txt',
+        vocab_path=f'{PATH}/vocab-raw.txt'
     )
