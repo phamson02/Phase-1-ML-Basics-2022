@@ -72,7 +72,7 @@ class MLP:
         loss = tf.reduce_mean(loss)
         return loss
 
-    def trainer(self, X, y, learning_rate):
+    def fit(self, X, y, learning_rate):
         optimizer = tf.keras.optimizers.Adam(learning_rate)
         with tf.GradientTape() as tape:
             logits = self.forward(X)
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     for step in range(MAX_STEP):
         train_data, train_labels = train_data_reader.next_batch()
 
-        loss = model.trainer(
+        loss = model.fit(
             X=train_data,
             y=train_labels,
             learning_rate=0.01,
